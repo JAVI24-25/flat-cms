@@ -12,8 +12,11 @@ function Admin() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  // 🔥 IMPORTANTE: Usar variable de entorno para la API
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const cargar = () => {
-    axios.get("http://localhost:5000/api/noticias").then(res => setNoticias(res.data));
+    axios.get(`${API_URL}/api/noticias`).then(res => setNoticias(res.data));
   };
 
   useEffect(() => cargar(), []);
@@ -42,7 +45,7 @@ function Admin() {
   };
 
   const crear = () => {
-    axios.post("http://localhost:5000/api/noticias", form)
+    axios.post(`${API_URL}/api/noticias`, form)
       .then(() => {
         cargar();
         resetForm();
@@ -63,7 +66,7 @@ function Admin() {
   };
 
   const guardarEdicion = () => {
-    axios.put(`http://localhost:5000/api/noticias/${editingId}`, form)
+    axios.put(`${API_URL}/api/noticias/${editingId}`, form)
       .then(() => {
         cargar();
         resetForm();
@@ -73,7 +76,7 @@ function Admin() {
 
   const eliminar = (id) => {
     if (window.confirm("¿Estás seguro de eliminar esta noticia?")) {
-      axios.delete(`http://localhost:5000/api/noticias/${id}`).then(() => cargar());
+      axios.delete(`${API_URL}/api/noticias/${id}`).then(() => cargar());
     }
   };
 
